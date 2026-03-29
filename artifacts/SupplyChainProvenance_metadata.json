@@ -4,7 +4,112 @@
 	},
 	"language": "Solidity",
 	"output": {
-		"abi": [],
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "itemId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "signatureNote",
+						"type": "string"
+					}
+				],
+				"name": "actorSign",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "itemName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "metadata",
+						"type": "string"
+					}
+				],
+				"name": "createItem",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "itemId",
+						"type": "uint256"
+					}
+				],
+				"name": "getItem",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "itemId",
+						"type": "uint256"
+					}
+				],
+				"name": "getSignature",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "actorAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "enum SupplyChainProvenance.actorRole",
+						"name": "role",
+						"type": "uint8"
+					}
+				],
+				"name": "registerActor",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
 		"devdoc": {
 			"kind": "dev",
 			"methods": {},
@@ -33,11 +138,11 @@
 	},
 	"sources": {
 		"contracts/contract.sol": {
-			"keccak256": "0x0587a0ce173a09180ccfdb33905d4a6c172346777ebf8dbed1c210d4989e1b91",
+			"keccak256": "0xa70e3fadb81321b4039dff7bd596af78cf5f03d9f4e51db958b690f83061f41d",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://13d34bf614c2f019ca5ba5286f6577eee9c59671cd02d0d397585b24d57c40b2",
-				"dweb:/ipfs/QmX5ToW1TsAEBcun2wDkoCmRm7DLgd9XjhuhDZdKsjEn4M"
+				"bzz-raw://d6b8d25fc7e3a74423a817c66a38489a6fa9a2653029a4201f7225a75ad5d7fb",
+				"dweb:/ipfs/QmRx9qzz2VLAoa7wJ7yd3ayuJD9dHRtzj3995N6y1NXdPe"
 			]
 		},
 		"hardhat/console.sol": {
