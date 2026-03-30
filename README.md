@@ -1,20 +1,61 @@
-## Project Description
+# Project Description
 
-This is our CSE540 project for a Supply Chain Provenance System
+
+## Description
+
+This project implements a blockchain-based supply chain provenance system designed to improve transparency, traceability, and trust across multiple stakeholders. Traditional supply chains rely on centralized and fragmented systems, making it difficult to track products and verify authenticity.
+
+Our system uses blockchain technology to create a shared, immutable ledger where product lifecycle events are recorded securely. This ensures that all stakeholders have access to a consistent and tamper-proof history of a product.
+
+## Roles in Supply Chain
+- Supplier -> Registers products
+- Manufacturer -> Processes and updates products
+- Distributor -> Handles shipment and custody transfer
+- Retailer -> Receives and delivers products
+- Regulator -> Verifies and validates product records
+- Consumer -> Views product provenance and authenticity
 
 ## Dependencies
 
-Currently the dependencies are all the default dependencies that remix does
+Currently the dependencies are all the default dependencies that remix does. This includes Chai and Mocha
 
 ## How to use or deploy
 
 Currently there is no way to deploy. There will be a typescript file in scripts/ that will be used to deploy. 
 
 
-contracts/ is for contracts
 
-scripts/ is for deployment scripts
+## Project Structure
+* contracts/ → Solidity smart contracts
+* scripts/ → Deployment scripts
+* test/ → Test files
+* README.md → Project documentation
 
-tests/ is for tests
+## Usage
 
+Users can interact with the system by:
 
+* Registering products
+* Updating product status
+* Transferring ownership between stakeholders
+* Viewing product history on the blockchain
+
+## Future Improvements
+
+* Integration with IoT devices for real-time tracking
+* Enhanced access control mechanisms
+* Frontend web interface for better usability
+* Improved scalability and gas optimization
+
+## Team Members
+
+* Karthik Venkata Sai Reddy Kunduru
+* Shiva Reddy Marri
+* Kamal Teja Annamdasu
+* Pardha Praneeth Pudi
+* Erin Ozcan
+
+## Course
+
+CSE 540: Engineering Blockchain Applications
+Arizona State University
