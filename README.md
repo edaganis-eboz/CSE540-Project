@@ -17,7 +17,7 @@ Our system uses blockchain technology to create a shared, immutable ledger where
 
 ## Dependencies
 
-Currently the dependencies are all the default dependencies that remix does. This includes Chai and Mocha
+Currently the dependencies are all the default dependencies that remix does. This includes Chai and Mocha, and whatever dependencies that hardhat has.
 
 ## How to use or deploy
 
