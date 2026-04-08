@@ -11,6 +11,87 @@
 				"type": "constructor"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "actorAddr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum SupplyChainProvenance.actorRole",
+						"name": "role",
+						"type": "uint8"
+					}
+				],
+				"name": "actorRegistered",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "itemId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "itemName",
+						"type": "string"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "creatorAddr",
+						"type": "address"
+					}
+				],
+				"name": "itemCreated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "itemId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "signerAddr",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum SupplyChainProvenance.actorRole",
+						"name": "role",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum SupplyChainProvenance.itemStatus",
+						"name": "updatedStatus",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "note",
+						"type": "string"
+					}
+				],
+				"name": "itemSigned",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -52,7 +133,25 @@
 						"type": "string"
 					}
 				],
-				"name": "actorSign",
+				"name": "actorReceiveSign",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "itemId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "signatureNote",
+						"type": "string"
+					}
+				],
+				"name": "actorSendSign",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -112,16 +211,9 @@
 						"type": "address"
 					},
 					{
-						"components": [
-							{
-								"internalType": "string",
-								"name": "status",
-								"type": "string"
-							}
-						],
-						"internalType": "struct SupplyChainProvenance.itemStatus",
+						"internalType": "enum SupplyChainProvenance.itemStatus",
 						"name": "status",
-						"type": "tuple"
+						"type": "uint8"
 					}
 				],
 				"stateMutability": "view",
@@ -192,16 +284,9 @@
 						"type": "address"
 					},
 					{
-						"components": [
-							{
-								"internalType": "string",
-								"name": "status",
-								"type": "string"
-							}
-						],
-						"internalType": "struct SupplyChainProvenance.itemStatus",
+						"internalType": "enum SupplyChainProvenance.itemStatus",
 						"name": "status",
-						"type": "tuple"
+						"type": "uint8"
 					},
 					{
 						"internalType": "bool",
@@ -229,7 +314,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "actorAddress",
+						"name": "actorAddr",
 						"type": "address"
 					},
 					{
@@ -272,11 +357,11 @@
 	},
 	"sources": {
 		"contracts/contract.sol": {
-			"keccak256": "0x6e09e7c559778cc1418dc76ed05ffcd6aac732279ee8d181a6d727ab414f25cf",
+			"keccak256": "0x67a0a4304a7cd186f8c4452bd1ff41f642ba520786841af83d36e11c291c2be0",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://5f1c36d5e97f45fb5a7467cabd370bacf07a3d13bb0935cdd2e0eba51569abfd",
-				"dweb:/ipfs/QmTjDyW7qgkhHBEuvFf3eU6i4rhXjjJPo9pYHwSXe5sjkj"
+				"bzz-raw://f4db7047823b1a52634f4989d62a8724c70ac819402a5060ce7fcb0bfba8a982",
+				"dweb:/ipfs/QmXDemRDAkNGHkxdwHCrpKFs1iW8wpU3Zitf7RKFUa639F"
 			]
 		},
 		"hardhat/console.sol": {
