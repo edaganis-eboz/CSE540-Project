@@ -225,6 +225,11 @@
 						"internalType": "uint256",
 						"name": "itemId",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "signatureIndex",
+						"type": "uint256"
 					}
 				],
 				"name": "getSignature",
@@ -357,11 +362,11 @@
 	},
 	"sources": {
 		"contracts/contract.sol": {
-			"keccak256": "0x67a0a4304a7cd186f8c4452bd1ff41f642ba520786841af83d36e11c291c2be0",
+			"keccak256": "0x872f21cf97a2e33df4431fb941833ea9d52b32ea74c87669b9d3e60b870737d1",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://f4db7047823b1a52634f4989d62a8724c70ac819402a5060ce7fcb0bfba8a982",
-				"dweb:/ipfs/QmXDemRDAkNGHkxdwHCrpKFs1iW8wpU3Zitf7RKFUa639F"
+				"bzz-raw://d33b41ee9d50d104c5c6c419d6234ee31f5fa530b8b762ded4416ec9a89ccdee",
+				"dweb:/ipfs/QmfRdekBCC3ZoftskDMXomJ55zeFEdkoP4dsaruf1SSDPC"
 			]
 		},
 		"hardhat/console.sol": {

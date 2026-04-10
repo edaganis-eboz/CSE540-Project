@@ -19,7 +19,6 @@ contract SupplyChainProvenance {
         Consumer
     }
     enum itemStatus {
-        // dont know if we should use a enum here
         created,
         atSupplier,
         atManufacturer,
@@ -27,7 +26,7 @@ contract SupplyChainProvenance {
         atRetailer,
         atRegulator,
         atConsumer,
-        retired,
+        retired, // after consumer
         onRoute
     }
     struct actor {
@@ -51,6 +50,7 @@ contract SupplyChainProvenance {
     }
     mapping(uint256 => item) public itemList;
     mapping(address => actor) public actorList;
+    mapping(uint256 => signature[]) private itemSignatures;
     uint16 nextItemIndex = 1; //THE ITEM ID WILL BE THE ITEMS INDEX ON THIS LIST
     address public owner; 
     // Okay so for now we're gonna have a global owner, this is the person who can register actors and probably other things
@@ -60,6 +60,12 @@ contract SupplyChainProvenance {
         require(msg.sender == owner, "Only the owner can do this");
         _;
     }
+
+    modifier itemExists(uint256 itemId) {
+        require(itemList[itemId].exists, "Item does not exist");
+        _;
+    }
+
     constructor() { // This function requires alot of gas for some reason
         owner = msg.sender;
     }
@@ -96,7 +102,7 @@ contract SupplyChainProvenance {
             itemName: itemName,
             metadata: metadata,
             creator: msg.sender,
-            status: itemStatus.created,
+            status: itemStatus.onRoute, // Doing this just for testing sake
             exists: true
         });
         nextItemIndex++; 
@@ -104,14 +110,111 @@ contract SupplyChainProvenance {
         emit itemCreated(itemId, itemName, msg.sender);
         return itemId;
     }
-    function actorReceiveSign(uint256 itemId, string calldata signatureNote) external  {
+
+    
+    function sign(uint256 itemId, string calldata note) internal {
+        // add signature to a list of signatures for item
+        itemSignatures[itemId].push(
+            signature({
+                signer: msg.sender,
+                role: actorList[msg.sender].role,
+                timestamp: block.timestamp,
+                note: note
+            })
+        );
+        // emit event
+        emit itemSigned(
+            itemId,
+            msg.sender,
+            actorList[msg.sender].role,
+            itemList[itemId].status,
+            note
+        );
+    }
+
+    function actorReceiveSign(uint256 itemId, string calldata signatureNote) external itemExists(itemId)  {
         // This function will be used for an actor to sign when they receive an item
         // Thus the itemstatus should be "onRoute" and then changed to "atWhoever"
-        
+        require(actorList[msg.sender].exists, "Not a registered actor");
+
+        actorRole role = actorList[msg.sender].role;
+        item storage itemToSign = itemList[itemId];
+        require(itemToSign.status == itemStatus.onRoute, "Invalid item status");
+        // TODO item starts as created to need to make a branch, or just change it to on route
+        if (role == actorRole.Supplier) {
+            itemToSign.status = itemStatus.atSupplier;
+        }
+
+        else if (role == actorRole.Manufacturer) {
+            itemToSign.status = itemStatus.atManufacturer;
+        }
+
+        else if (role == actorRole.Distributor) {
+            itemToSign.status = itemStatus.atDistributor;
+        }
+
+        else if (role == actorRole.Retailer) {
+            itemToSign.status = itemStatus.atRetailer;
+        }
+
+        else if (role == actorRole.Regulator) {
+            itemToSign.status = itemStatus.atRegulator;
+        }
+
+        else if (role == actorRole.Consumer) {
+            itemToSign.status = itemStatus.atConsumer;
+        }
+
+        else {
+            revert("Something went wrong");
+        }
+        sign(itemId, signatureNote);
+
     }
-    function actorSendSign(uint256 itemId, string calldata signatureNote) external  {
+    function actorSendSign(uint256 itemId, string calldata signatureNote) external itemExists(itemId) {
         // This function will be used for an actor to sign when they send out an item
         // Thus itemstatus should be "atWhoever" and then changed to "onRoute"
+        require(actorList[msg.sender].exists, "Not a registered actor");
+
+        actorRole role = actorList[msg.sender].role;
+        item storage itemToSign = itemList[itemId];
+        require(itemToSign.status != itemStatus.onRoute, "Invalid item status");
+        // TODO item starts as created to need to make a branch, or just change it to on route
+        if (role == actorRole.Supplier) {
+            require(itemToSign.status == itemStatus.atSupplier, "Invalid item status");
+            itemToSign.status = itemStatus.onRoute;
+        }
+
+        else if (role == actorRole.Manufacturer) {
+            require(itemToSign.status == itemStatus.atManufacturer, "Invalid item status");
+            itemToSign.status = itemStatus.onRoute;
+        }
+
+        else if (role == actorRole.Distributor) {
+            require(itemToSign.status == itemStatus.atDistributor, "Invalid item status");
+            itemToSign.status = itemStatus.onRoute;
+        }
+
+        else if (role == actorRole.Retailer) {
+            require(itemToSign.status == itemStatus.atRetailer, "Invalid item status");
+            itemToSign.status = itemStatus.onRoute;
+        }
+
+        else if (role == actorRole.Regulator) {
+            require(itemToSign.status == itemStatus.atRegulator, "Invalid item status");
+            itemToSign.status = itemStatus.onRoute;
+        }
+
+        else if (role == actorRole.Consumer) {
+            require(itemToSign.status == itemStatus.atConsumer, "Invalid item status");
+            itemToSign.status = itemStatus.retired;
+        }
+
+        else {
+            revert("Something went wrong");
+        }
+        sign(itemId, signatureNote);
+
     }
     function getItem(uint256 itemId) external view returns (
         uint256 id,
@@ -121,17 +224,20 @@ contract SupplyChainProvenance {
         itemStatus status
     ) // return struct data as a tuple for reasons, trust me bro
     {
-        // Find the item on the mapping using itemID as index
-        // Returns the item data as a tuple
+        item memory returnItem = itemList[itemId];
+        return (returnItem.itemId, returnItem.itemName, returnItem.metadata, returnItem.creator, returnItem.status);
     }
-    function getSignature(uint256 itemId) external view returns (
+    function getSignature(uint256 itemId, uint256 signatureIndex) external view returns (
         address signerAddress,
         actorRole signerRole,
         uint256 signatureTimestamp,
         string memory signatureNote
     ) {
-        // This should be like a function that lets you view (all?) the signatures for the item
-        // Should items have a list for signatures?
+        //TODO right now i dont know how to do this better, I would rather it return a list of all the signatures
+        require(signatureIndex < itemSignatures[itemId].length, "Index out of bounds");
+
+        signature memory sig = itemSignatures[itemId][signatureIndex];
+        return (sig.signer, sig.role, sig.timestamp, sig.note);
     }
 
     }
