@@ -40,6 +40,15 @@ Users can interact with the system by:
 * Transferring ownership between stakeholders
 * Viewing product history on the blockchain
 
+To run:
+
+npx hardhat compile
+
+in a different terminal run npx hardhat node
+
+npx hardhat run scripts/deploy.ts --network localhost
+
+
 ## Future Improvements
 
 * Integration with IoT devices for real-time tracking
