@@ -241,4 +241,9 @@ contract SupplyChainProvenance {
         return (sig.signer, sig.role, sig.timestamp, sig.note);
     }
 
+    function getSignatures(uint256 itemId) external  view returns (
+        signature[] memory
+    ){
+        return itemSignatures[itemId];
     }
+}

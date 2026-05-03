@@ -40,13 +40,32 @@ Users can interact with the system by:
 * Transferring ownership between stakeholders
 * Viewing product history on the blockchain
 
-To run:
 
-npx hardhat compile
+### To run:
 
-in a different terminal run npx hardhat node
+`npx hardhat compile`
 
-npx hardhat run scripts/deploy.ts --network localhost
+In a different terminal run:
+
+`npx hardhat node`
+
+Then deploy in the original terminal by running:
+
+`npx hardhat run scripts/deploy.ts --network localhost`
+
+### Usage Conmmands
+
+`npx hardhat register-actor <actor wallet address> <int> --network localhost`
+
+`npx hardhat create-item <item name> <note> --network localhost`
+
+`npx hardhat get-item <item id> --network localhost`
+
+`npx hardhat receive-sign <item id> <signer wallet address> <note> --network localhost`
+
+`npx hardhat send-sign <item id> <signer wallet address> <note> --network localhost`
+
+`npx hardhat get_signatures <item id> --network localhost`
 
 
 ## Future Improvements

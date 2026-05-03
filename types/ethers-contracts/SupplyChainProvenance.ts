@@ -4,9 +4,16 @@
 import type { BaseContract, BigNumberish, BytesLike, FunctionFragment, Result, Interface, EventFragment, AddressLike, ContractRunner, ContractMethod, Listener } from "ethers"
 import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedLogDescription, TypedListener, TypedContractMethod } from "./common.js"
   
+export declare namespace SupplyChainProvenance {
+      
+    export type SignatureStruct = {signer: AddressLike, role: BigNumberish, timestamp: BigNumberish, note: string}
+
+    export type SignatureStructOutput = [signer: string, role: bigint, timestamp: bigint, note: string] & {signer: string, role: bigint, timestamp: bigint, note: string }
+  
+    }
 
   export interface SupplyChainProvenanceInterface extends Interface {
-    getFunction(nameOrSignature: "actorList" | "actorReceiveSign" | "actorSendSign" | "createItem" | "getItem" | "getSignature" | "itemList" | "owner" | "registerActor"): FunctionFragment;
+    getFunction(nameOrSignature: "actorList" | "actorReceiveSign" | "actorSendSign" | "createItem" | "getItem" | "getSignature" | "getSignatures" | "itemList" | "owner" | "registerActor"): FunctionFragment;
 
     getEvent(nameOrSignatureOrTopic: "actorRegistered" | "itemCreated" | "itemSigned"): EventFragment;
 
@@ -16,6 +23,7 @@ encodeFunctionData(functionFragment: 'actorSendSign', values: [BigNumberish, str
 encodeFunctionData(functionFragment: 'createItem', values: [string, string]): string;
 encodeFunctionData(functionFragment: 'getItem', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'getSignature', values: [BigNumberish, BigNumberish]): string;
+encodeFunctionData(functionFragment: 'getSignatures', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'itemList', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
 encodeFunctionData(functionFragment: 'registerActor', values: [AddressLike, BigNumberish]): string;
@@ -26,6 +34,7 @@ decodeFunctionResult(functionFragment: 'actorSendSign', data: BytesLike): Result
 decodeFunctionResult(functionFragment: 'createItem', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'getItem', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'getSignature', data: BytesLike): Result;
+decodeFunctionResult(functionFragment: 'getSignatures', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'itemList', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'registerActor', data: BytesLike): Result;
@@ -150,6 +159,14 @@ decodeFunctionResult(functionFragment: 'registerActor', data: BytesLike): Result
     
 
     
+    getSignatures: TypedContractMethod<
+      [itemId: BigNumberish, ],
+      [SupplyChainProvenance.SignatureStructOutput[]],
+      'view'
+    >
+    
+
+    
     itemList: TypedContractMethod<
       [arg0: BigNumberish, ],
       [[bigint, string, string, string, bigint, boolean] & {itemId: bigint, itemName: string, metadata: string, creator: string, status: bigint, exists: boolean }],
@@ -204,6 +221,11 @@ getFunction(nameOrSignature: 'getItem'): TypedContractMethod<
 getFunction(nameOrSignature: 'getSignature'): TypedContractMethod<
       [itemId: BigNumberish, signatureIndex: BigNumberish, ],
       [[string, bigint, bigint, string] & {signerAddress: string, signerRole: bigint, signatureTimestamp: bigint, signatureNote: string }],
+      'view'
+    >;
+getFunction(nameOrSignature: 'getSignatures'): TypedContractMethod<
+      [itemId: BigNumberish, ],
+      [SupplyChainProvenance.SignatureStructOutput[]],
       'view'
     >;
 getFunction(nameOrSignature: 'itemList'): TypedContractMethod<

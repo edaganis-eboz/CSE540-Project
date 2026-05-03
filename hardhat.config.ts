@@ -122,6 +122,43 @@ const getItem = task("get-item", "Get an item by ID")
   })
   .build();
 
+const getItemSignatures = task("get-item-signatures", "Gets all the signatures of an item")
+  .addPositionalArgument({
+    name: "id",
+    description: "Item ID",
+  })
+  .setInlineAction(async (args, hre) => {
+    const { ethers } = await hre.network.connect();
+
+    const contract = await ethers.getContractAt(
+      "SupplyChainProvenance",
+      getAddress()
+    );
+
+    const sigs = await contract.getSignatures(Number(args.id));
+
+     if (sigs.length === 0) {
+      console.log(`No signatures for item ${args.id}`);
+      return;
+    }
+
+    console.log(`Signatures for item ${args.id}:`);
+
+    sigs.forEach((sig: any, i: number) => {
+      const signer = sig.signer ?? sig[0];
+      const role = sig.role ?? sig[1];
+      const timestamp = sig.timestamp ?? sig[2];
+      const note = sig.note ?? sig[3];
+
+      console.log(`--- Signature ${i} ---`);
+      console.log("  signer:", signer);
+      console.log("  role:", ROLE_NAMES[Number(role)]);
+      console.log("  timestamp:", timestamp.toString());
+      console.log("  note:", note);
+    });
+  })
+  .build();
+
 const actorReceiveSign = task("receive-sign", "Sign an item upon receiving")
   .addPositionalArgument({
     name: "id",
@@ -214,7 +251,7 @@ const actorSendSign = task("send-sign", "Sign item when sending")
 
 export default defineConfig({
   plugins: [hardhatToolboxMochaEthersPlugin],
-  tasks: [registerActor, createItem, getItem, actorReceiveSign, actorSendSign],
+  tasks: [registerActor, createItem, getItem, actorReceiveSign, actorSendSign, getItemSignatures],
   solidity: {
     profiles: {
       default: {
