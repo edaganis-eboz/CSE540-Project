@@ -1,9 +1,11 @@
 // This script should be used to deploy our countract
 // Currently very basic, uses hardhat for local deployment
 import { network } from "hardhat";
+import * as fs from "fs";
+
 const { ethers } = await network.connect({
-  network: "hardhatOp",
-  chainType: "op",
+  network: "localhost",
+  chainType: "l1",
 });
 
 async function main() {
@@ -11,7 +13,9 @@ async function main() {
   const contract = await MyContract.deploy();
 
   await contract.waitForDeployment();
-  console.log("Contract deployed to:", await contract.getAddress());
+  const contract_addr = await contract.getAddress()
+  console.log("Contract deployed to:", contract_addr );
+  fs.writeFileSync("contract_addr.log", contract_addr);
 }
 
 main().catch((error) => {

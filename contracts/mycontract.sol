@@ -19,6 +19,7 @@ contract SupplyChainProvenance {
         Consumer
     }
     enum itemStatus {
+        None,
         created,
         atSupplier,
         atManufacturer,
@@ -51,7 +52,7 @@ contract SupplyChainProvenance {
     mapping(uint256 => item) public itemList;
     mapping(address => actor) public actorList;
     mapping(uint256 => signature[]) private itemSignatures;
-    uint16 nextItemIndex = 1; //THE ITEM ID WILL BE THE ITEMS INDEX ON THIS LIST
+    uint16 nextItemIndex = 0; //THE ITEM ID WILL BE THE ITEMS INDEX ON THIS LIST
     address public owner; 
     // Okay so for now we're gonna have a global owner, this is the person who can register actors and probably other things
     
